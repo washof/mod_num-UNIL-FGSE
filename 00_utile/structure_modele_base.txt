@@ -1,0 +1,71 @@
+---------------
+=== GENERAL ===
+---------------
+
+# I> parametres PHYSIQUES
+x_ini  = 1
+
+# II> parametres NUMERIQUES
+nt     = 100
+dt     = 0.1
+
+# III> initialisation
+x      = np.zeros(nt)
+x      = x_ini
+
+# IV> boucle temporelle
+for i in range(nt):
+    x += ?   		# regle de mise à jour
+    plt.plot(...)       # Visualisation (ou a la fin, en dehors de la boucle)
+
+
+-------------
+=== EN 2D ===
+-------------
+
+
+# import librairies
+import numpy as np
+import matplotlib.pyplot as plt
+from IPython.display import clear_output, display
+
+# physical parameters
+V = 113
+V_x = np.cos(np.pi/4)*V # speed, km/h
+V_y = np.sin(np.pi/4)*V
+L = 200           # maximum distance
+dir_x = 1             # direction of vehicle
+ttot = 12            # total time, hr
+
+# numerical parameters 
+dt   = 0.1        # timestep, hr
+nt   = int(ttot/dt)     # nb of timesteps
+nout = 3
+
+# initialization
+time = 0 
+dist_x = 0
+dist_y = 0
+
+# create the figure outside the loop 
+fig, ax = plt.subplots(figsize=(5, 5))
+
+for it in range(1, nt):
+    time += dt      # update time
+    dist_x += V_x * dt * dir     # update dist ATTENTION pas oublier de dire qu'il faut changer de sens selon la valeur de dir, MAIS seulement pour l'axe X dans cet exemple!
+    dist_y += V_y * dt
+    if dist_x > L:
+        dir = -1       # make U turn
+    elif dist_x < 0:
+        dir = 1        # make U turn
+     
+    # vizualization
+    if it%nout==0:
+        clear_output(wait=True)  # clear the output in VS Code
+        ax.cla()  # clear the current axes
+        ax.scatter(dist_x, dist_y, c='k')  # plot all points up to current time step
+        ax.set_xlim(0, 200)  
+        ax.set_ylim(0, 1000)  
+        ax.set_xlabel('Distance') 
+        display(fig)  # display the figure
+        plt.pause(0.1)  # pause to visualize updates

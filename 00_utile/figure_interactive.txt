@@ -1,0 +1,22 @@
+import numpy as np
+import matplotlib.pyplot as plt
+from IPython.display import clear_output, display
+
+nbit = 1300
+nbout = 30
+
+# create the figure outside the loop 
+fig, ax = plt.subplots()
+
+for it in range(nbit):
+
+    if it%nbout==0:
+        clear_output(wait=True)  # clear the output in VS Code
+        ax.clear() #clear previous graph to show new image on blank canvas
+        ax.scatter(np.cos(it*0.005), np.sin(it*0.005), c='k')
+        ax.set_xlim(-1.2, 1.2)
+        ax.set_ylim(-1.2, 1.2)
+        ax.set_aspect('equal')
+        display(fig)
+        plt.pause(0.1)  # pause to visualize updates
+     
